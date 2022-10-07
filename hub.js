@@ -2,7 +2,7 @@
 
 const {Server} = require ('socket.io');
 const PORT = process.env.PORT || 3002;
-const Queue = require('./magic-8-ball/lib/queue');
+const Queue = require('./lib/queue');
 const server = new Server(PORT);
 const fortuneQueue = new Queue();
 
@@ -16,9 +16,9 @@ fortunes.on ('connection', (socket)=>{
   console.log ('connected to namespace', socket.id);
 
   socket.onAny((event, payload) => {
-    const date = new Date();
-    const time = date.toTimeString();
-    console.log('EVENT', {event, time, payload});
+    // const date = new Date();
+    // const time = date.toTimeString();
+    console.log('EVENT', {event, payload});
   });
 
   socket.on('JOIN', (queueId) => {

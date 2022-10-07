@@ -9,7 +9,7 @@ client.subscribe('RESPONSE', (payload) => {
 });
 
 function askEightBall() {
-  const questions = ['Does my crush like me?', 'Is my partner going to break up with me?', 'Do my parents love me?', 'Should I break up with my partner?', 'Am I gay?', 'Should I buy it?'];
+  const questions = ['Does my crush like me?', 'Is my partner going to break up with me?', 'Do my parents love me?', 'Should I break up with my partner?','Am I going to survive Code Fellows?', 'Should I buy it?'];
   const question = questions[Math.floor(Math.random() * questions.length)];
   console.log('Tell me...', question);
   client.publish('ASK');
