@@ -8,7 +8,7 @@ class ClientClass {
   constructor(queueId) {
     this.queueId = queueId;
     this.socket = io(SOCKET_URL);
-    this.socket.emit('JOIN', {queueId});
+    this.socket.emit('JOIN', this.queueId);
     this.socket.on('JOIN', (id) => {
       console.log('Joined Fortune Queue', id);
     });

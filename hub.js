@@ -39,11 +39,14 @@ fortunes.on ('connection', (socket)=>{
   socket.on('RESPONSE',(payload)=>{
     let currentQueue = fortuneQueue.read(payload.queueId);
     if(!currentQueue){
-      throw new Error('No Queue Created');
+      // throw new Error('No Queue Created');
+      let queueKey = fortuneQueue.store(payload.queueId, new Queue());
+      currentQueue = fortuneQueue.read(queueKey);
     }
-    let fortune = currentQueue.store(payload.messageId);
+    // console.log('------------ logged queue ------------ ', JSON.stringify(currentQueue));
+    currentQueue.store(payload.messageId, payload);
     fortunes.emit('RESPONSE',payload);
-    socket.to(payload.queueId).emit('RESPONSE', fortune);
+    socket.to(payload.queueId).emit('RESPONSE', payload);
 
   });  
 
@@ -59,11 +62,11 @@ fortunes.on ('connection', (socket)=>{
   });
 
   socket.on('GET_ALL', (payload) => {
-    console.log('Fortunes Told');
+    console.log('Fortunes Told ------->');
     let currentQueue = fortuneQueue.read(payload.queueId);
     if(currentQueue && currentQueue.data){
       Object.keys(currentQueue.data).forEach(messageId => {
-        socket.emit('FORTUNE', currentQueue.read(messageId));
+        socket.emit('RESPONSE', currentQueue.read(messageId));
       });
     }
   });
